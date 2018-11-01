@@ -1,3 +1,6 @@
+### NOTE: This repo considering as latest version of SCM Notifier
+
+
 SCM Notifier is a tool to monitor Git and SVN repositories.
 
 This program is forked from SVN Notifier (http://svnnotifier.tigris.org/).
