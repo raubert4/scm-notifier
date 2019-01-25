@@ -75,6 +75,11 @@ namespace pocorall.SCM_Notifier
             ExecuteProcess(Config.TortoiseSvnPath, null, arguments, true, false);
         }
 
+        public override void Reset()
+        {
+            // TODO : Not implemented for SVN
+        }
+
         public override void Commit()
         {
             string arguments = String.Format("/command:commit /path:\"{0}\" /notempfile", Path);

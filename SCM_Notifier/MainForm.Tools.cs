@@ -83,8 +83,36 @@ namespace pocorall.SCM_Notifier
 			updateNotInProgress.Set ();
 		}
 
+        private void ResetFolder()
+        {
+            if (listViewFolders.SelectedIndices.Count == 0)
+                return;
 
-		private void CommitFolder()
+            int selectedIndex = listViewFolders.SelectedIndices[0];
+            ScmRepository folder = folders[selectedIndex];
+            
+            if (MessageBox.Show($"Are you sure to reset all changes in {folder.Path} ?", "SCM Notifier", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                return;
+            }
+
+            folder.Status = ScmRepositoryStatus.Unknown;
+            listViewFolders.Items[selectedIndex].ImageKey = folder.IconName;
+            
+            statusStrip.Items[0].Text = "Reseting '" + folder.Path + "'...";
+            UpdateTray(true);
+            Refresh();              // Show "Unknown" folder status during updating
+
+            BeginUpdateFolderStatuses();
+
+            folder.Reset();
+
+            forcedFolders.Enqueue(folder);
+        }
+
+
+
+        private void CommitFolder()
 		{
 			if (listViewFolders.SelectedIndices.Count == 0)
 				return;
@@ -123,8 +151,32 @@ namespace pocorall.SCM_Notifier
 			UpdateTray (true);
 		}
 
+        private void ResetAll()
+        {
+            if (MessageBox.Show($"Are you sure to reset all changes in all repositories ?", "SCM Notifier", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                return;
+            }
 
-		private void OpenFolder ()
+            statusStrip.Items[0].Text = "Reseting all...";
+            UpdateTray(true);
+
+            BeginUpdateFolderStatuses();
+            
+            foreach (ScmRepository folder in folders)
+                if (folder is GitRepository && (folder.Status == ScmRepositoryStatus.UpToDate_Modified || folder.Status == ScmRepositoryStatus.NeedUpdate_Modified))
+                {
+                    folder.Status = ScmRepositoryStatus.Unknown;
+                    listViewFolders.Items[folders.IndexOf(folder)].ImageKey = folder.IconName;
+
+                        folder.Reset();
+                        forcedFolders.Enqueue(folder);
+                }
+            UpdateTray(true);
+        }
+
+
+        private void OpenFolder ()
 		{
 			var selectedIndex = listViewFolders.SelectedIndices[0];
 			var folder = folders[selectedIndex].Path;

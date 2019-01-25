@@ -104,6 +104,15 @@ namespace pocorall.SCM_Notifier
             string d = ( er.processOutput);
         }
 
+        /// <summary>
+        /// This method waits until updating will finish
+        /// </summary>
+        public override void Reset()
+        {
+            ExecuteResult er = ExecuteProcess(Config.GitPath, Path, "reset --hard", true, false);
+            string d = (er.processOutput);
+        }
+
         private bool isModified(string response)
         {
             return !(response.Contains("othing added to commit") || response.Contains("othing to commit"));

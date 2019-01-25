@@ -44,7 +44,7 @@ namespace pocorall.SCM_Notifier
 			this.menuItem_ShowList = new System.Windows.Forms.ToolStripMenuItem ();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator ();
 			this.menuItem_UpdateAll = new System.Windows.Forms.ToolStripMenuItem ();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator ();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator ();
 			this.menuItem_Exit = new System.Windows.Forms.ToolStripMenuItem ();
 			this.menuStrip = new System.Windows.Forms.MenuStrip ();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
@@ -58,6 +58,7 @@ namespace pocorall.SCM_Notifier
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.updateAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
+			this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator ();
 			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
@@ -68,8 +69,9 @@ namespace pocorall.SCM_Notifier
 			this.checkNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator ();
 			this.changeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
-			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
-			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator ();
+            this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator ();
 			this.commitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
 			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator ();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem ();
@@ -165,17 +167,17 @@ namespace pocorall.SCM_Notifier
 			//
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
 			this.toolStripMenuItem1.Size = new System.Drawing.Size (183, 6);
-			//
-			// menuItem_UpdateAll
-			//
-			this.menuItem_UpdateAll.Name = "menuItem_UpdateAll";
-			this.menuItem_UpdateAll.Size = new System.Drawing.Size (186, 22);
-			this.menuItem_UpdateAll.Text = "Update All";
-			this.menuItem_UpdateAll.Click += new System.EventHandler (this.menuItem_UpdateAll_Click);
-			//
-			// toolStripMenuItem2
-			//
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            //
+            // menuItem_UpdateAll
+            //
+            this.menuItem_UpdateAll.Name = "menuItem_UpdateAll";
+            this.menuItem_UpdateAll.Size = new System.Drawing.Size(186, 22);
+            this.menuItem_UpdateAll.Text = "Update All";
+            this.menuItem_UpdateAll.Click += new System.EventHandler(this.menuItem_UpdateAll_Click);
+            //
+            // toolStripMenuItem2
+            //
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
 			this.toolStripMenuItem2.Size = new System.Drawing.Size (183, 6);
 			//
 			// menuItem_Exit
@@ -274,6 +276,7 @@ namespace pocorall.SCM_Notifier
 			//
 			this.toolsToolStripMenuItem.DropDownItems.AddRange (new System.Windows.Forms.ToolStripItem [] {
             this.updateAllToolStripMenuItem,
+            this.resetAllToolStripMenuItem,
             this.toolStripMenuItem4,
             this.settingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -287,6 +290,14 @@ namespace pocorall.SCM_Notifier
 			this.updateAllToolStripMenuItem.Size = new System.Drawing.Size (152, 22);
 			this.updateAllToolStripMenuItem.Text = "&Update All";
 			this.updateAllToolStripMenuItem.Click += new System.EventHandler (this.menuItemUpdateAll_Click);
+            //
+            // resetAllToolStripMenuItem
+            //
+            this.resetAllToolStripMenuItem.Enabled = false;
+			this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
+			this.resetAllToolStripMenuItem.Size = new System.Drawing.Size (152, 22);
+			this.resetAllToolStripMenuItem.Text = "Reset All";
+			this.resetAllToolStripMenuItem.Click += new System.EventHandler (this.menuItemResetAll_Click);
 			//
 			// toolStripMenuItem4
 			//
@@ -336,6 +347,7 @@ namespace pocorall.SCM_Notifier
             this.toolStripMenuItem6,
             this.changeLogToolStripMenuItem,
             this.updateToolStripMenuItem,
+            this.resetToolStripMenuItem,
             this.toolStripMenuItem7,
             this.commitToolStripMenuItem,
             this.toolStripMenuItem8,
@@ -375,10 +387,17 @@ namespace pocorall.SCM_Notifier
 			this.updateToolStripMenuItem.Size = new System.Drawing.Size (154, 22);
 			this.updateToolStripMenuItem.Text = "Update";
 			this.updateToolStripMenuItem.Click += new System.EventHandler (this.updateToolStripMenuItem_Click);
-			//
-			// toolStripMenuItem7
-			//
-			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            //
+            // resetToolStripMenuItem
+            //
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            //
+            // toolStripMenuItem7
+            //
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
 			this.toolStripMenuItem7.Size = new System.Drawing.Size (151, 6);
 			//
 			// commitToolStripMenuItem
@@ -684,7 +703,7 @@ namespace pocorall.SCM_Notifier
 		private ToolStripMenuItem menuItem_ShowList;
 		private ToolStripSeparator toolStripMenuItem1;
 		private ToolStripMenuItem menuItem_UpdateAll;
-		private ToolStripSeparator toolStripMenuItem2;
+        private ToolStripSeparator toolStripMenuItem2;
 		private ToolStripMenuItem menuItem_Exit;
 		private MenuStrip menuStrip;
 		private ToolStripMenuItem editToolStripMenuItem;
@@ -699,7 +718,8 @@ namespace pocorall.SCM_Notifier
 		private ToolStripMenuItem addFileToolStripMenuItem;
 		private ToolStripMenuItem deleteToolStripMenuItem;
 		private ToolStripMenuItem updateAllToolStripMenuItem;
-		private ToolStripSeparator toolStripMenuItem4;
+		private ToolStripMenuItem resetAllToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem4;
 		private ToolStripMenuItem settingsToolStripMenuItem;
 		private ToolStripMenuItem checkForUpdatesToolStripMenuItem;
 		private ToolStripSeparator toolStripMenuItem5;
@@ -709,7 +729,8 @@ namespace pocorall.SCM_Notifier
 		private ToolStripSeparator toolStripMenuItem6;
 		private ToolStripMenuItem changeLogToolStripMenuItem;
 		private ToolStripMenuItem updateToolStripMenuItem;
-		private ToolStripSeparator toolStripMenuItem7;
+		private ToolStripMenuItem resetToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem7;
 		private ToolStripMenuItem commitToolStripMenuItem;
 		private ToolStripSeparator toolStripMenuItem8;
 		private ToolStripMenuItem openToolStripMenuItem;

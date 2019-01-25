@@ -321,6 +321,8 @@ namespace pocorall.SCM_Notifier
 
         abstract public void Commit();
 
+        abstract public void Reset();
+
         abstract public ScmRepositoryStatusEx GetStatus();
 
         abstract public void BeginUpdateSilently();

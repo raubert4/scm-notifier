@@ -233,6 +233,12 @@ namespace pocorall.SCM_Notifier
 			UpdateAll();
 		}
 
+
+		private void menuItemResetAll_Click(object sender, EventArgs e)
+		{
+			ResetAll();
+		}
+
         private void AddFolder(string path)
         {
             if (!folders.ContainsPath(path))
@@ -402,8 +408,12 @@ namespace pocorall.SCM_Notifier
 			UpdateFolder();
 		}
 
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetFolder();
+        }
 
-		private void commitToolStripMenuItem_Click (object sender, EventArgs e)
+        private void commitToolStripMenuItem_Click (object sender, EventArgs e)
 		{
 			CommitFolder();
 		}
@@ -476,8 +486,9 @@ namespace pocorall.SCM_Notifier
 		{
 			checkNowToolStripMenuItem.Enabled =
 				commitToolStripMenuItem.Enabled =
-				updateToolStripMenuItem.Enabled =
-				changeLogToolStripMenuItem.Enabled =
+                updateToolStripMenuItem.Enabled =
+                resetToolStripMenuItem.Enabled =
+                changeLogToolStripMenuItem.Enabled =
 				logToolStripMenuItem.Enabled =
 				fetchToolStripMenuItem.Enabled =
 				propertiesToolStripMenuItem.Enabled =
@@ -489,13 +500,15 @@ namespace pocorall.SCM_Notifier
 
 			int selectedIndex = listViewFolders.SelectedIndices[0];
 			if (folders[selectedIndex] is GitRepository)
-			{
-				fetchToolStripMenuItem.Visible = true;
-			}
+            {
+                fetchToolStripMenuItem.Visible = true;
+                resetToolStripMenuItem.Visible = true;
+            }
 			else
 			{
 				fetchToolStripMenuItem.Visible = false;
-			}
+                resetToolStripMenuItem.Visible = false;
+            }
 			switch (folders[selectedIndex].Status)
 			{
 				case ScmRepositoryStatus.NeedUpdate:
@@ -512,7 +525,8 @@ namespace pocorall.SCM_Notifier
 					checkNowToolStripMenuItem.Enabled =
 						commitToolStripMenuItem.Enabled =
 						updateToolStripMenuItem.Enabled =
-						changeLogToolStripMenuItem.Enabled =
+                        resetToolStripMenuItem.Enabled =
+                        changeLogToolStripMenuItem.Enabled =
 						logToolStripMenuItem.Enabled =
 						fetchToolStripMenuItem.Enabled =
 						propertiesToolStripMenuItem.Enabled =
@@ -523,7 +537,8 @@ namespace pocorall.SCM_Notifier
 					checkNowToolStripMenuItem.Enabled =
 						commitToolStripMenuItem.Enabled =
 						logToolStripMenuItem.Enabled =
-						fetchToolStripMenuItem.Enabled =
+                        resetToolStripMenuItem.Enabled =
+                        fetchToolStripMenuItem.Enabled =
 						propertiesToolStripMenuItem.Enabled =
                         sortListToolStripMenuItem.Enabled = true;
 					break;
@@ -570,15 +585,15 @@ namespace pocorall.SCM_Notifier
 		private void menuItem_UpdateAll_Click (object sender, EventArgs e)
 		{
 			UpdateAll();
-		}
+        }
+        
+        #endregion
 
-		#endregion
+        ////////////////////////////////////////////////////////////////////////////////////
 
-		////////////////////////////////////////////////////////////////////////////////////
+        #region listViewFolders handlers
 
-		#region listViewFolders handlers
-
-		private void listViewFolders_SelectedIndexChanged (object sender, EventArgs e)
+        private void listViewFolders_SelectedIndexChanged (object sender, EventArgs e)
 		{
 			if (listViewFolders.SelectedIndices.Count > 0)
 			{
@@ -1303,9 +1318,19 @@ namespace pocorall.SCM_Notifier
 			{
 				updateAllToolStripMenuItem.Enabled = false;
 				menuItem_UpdateAll.Enabled = false;
-			}
+            }
 
-			if (newNonUpdatedFoldersChanged)
+            if ((folders.ContainsStatus(ScmRepositoryStatus.UpToDate_Modified)
+                 || folders.ContainsStatus(ScmRepositoryStatus.NeedUpdate_Modified)))
+            {
+                resetAllToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                resetAllToolStripMenuItem.Enabled = false;
+            }
+
+            if (newNonUpdatedFoldersChanged)
 			{
 				// Update tray balloon
 
@@ -1586,6 +1611,11 @@ namespace pocorall.SCM_Notifier
             {
                 listViewFolders.EndUpdate();
             }
+        }
+
+        private void resetToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
